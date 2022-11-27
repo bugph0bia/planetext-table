@@ -57,7 +57,7 @@ Generate ascii table.
 - aligns (list[Align])
     - text alignment of each column (see below for details)
     - Default: `None`
-- converters
+- converters (list[tuple[Union[Type, tuple[Type]], Callable[[Any], str]]])
     - list of type and converter pairs (see below for details)
     - Default: `None`
 
@@ -86,7 +86,7 @@ Generate CSV table.
 - internal_newline (str)
     - newline character at inside element
     - Default: `'\n'`
-- converters
+- converters (list[tuple[Union[Type, tuple[Type]], Callable[[Any], str]]])
     - list of type and converter pairs (see below for details)
     - Default: `None`
 
@@ -113,13 +113,15 @@ Generate markdown table.
 - aligns (list[Align])
     - text alignment of each column (see below for details)
     - Default: `None`
-- converters
+- converters (list[tuple[Union[Type, tuple[Type]], Callable[[Any], str]]])
     - list of type and converter pairs (see below for details)
     - Default: `None`
 
 ## Note
 ### About `aligns` argument
-Liner list for specifying the alignment of each column. Inside values should be the `planetext_table.Align` enumeration.
+Type: `List[Any]`  
+
+Liner list for specifying the alignment of each column. Inside values should be the `planetext_table.Align` enumeration.  
 
 If `to_ascii`, it affects alignment with space padding.
 If `to_markdown`, the alignment is specified according to the markdown notation.
@@ -134,7 +136,19 @@ The value of the `planetext_table.Align` is as follows:
 `NONE` will mean `LEFT`, but the markdown will no longer use `:` on the second line.
 
 ### About `converter` argument
+Type: `list[tuple[Union[Type, tuple[Type]], Callable[[Any], str]]]`  
+
 By default, built-in function `str` is used to convert the value of each element to a string, but this argument allows any conversion function to be used.
+
+Type information with indent:  
+```
+list[
+    tuple[
+        Union[Type, tuple[Type]],  # One or more Type (e.g.: int, bytes, ...)
+        Callable[[Any], str]       # Function (Callable object) with one argument and one return value
+    ]
+]
+```
 
 To pass liner list of pairs (tuples) of target element types and conversion functions.
 It is possible to specify multiple types by making a tuple of element types. (As used in built-in function `isinstance`)
